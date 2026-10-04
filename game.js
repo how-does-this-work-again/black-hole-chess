@@ -95,18 +95,66 @@ function isWhite(piece) {
 // generates legal moves, returns an array of valid target coordinates [{ row: row, col: col }, ...]
 // for the piece at (startRow, startCol)
 function legalMoves(startRow, startCol) {
-    let piece = board[startRow][startCol]
-    let legal = []
+    let piece = board[startRow][startCol];
+    let legal = [];
     if (piece === '♜') { // white rook
-
+        
     } else if (piece === '♞') { // white knight
-
+        // check every possible legal move
+        if (isWhite(board[startRow + 1][startCol + 2]) != true) { 
+            legal.push({row: startRow + 1, col: startCol + 2})
+        }
+        if (isWhite(board[startRow - 1][startCol + 2]) != true) { 
+            legal.push({row: startRow - 1, col: startCol + 2})
+        }
+        if (isWhite(board[startRow + 1][startCol - 2]) != true) { 
+            legal.push({row: startRow + 1, col: startCol - 2})
+        }
+        if (isWhite(board[startRow - 1][startCol - 2]) != true) { 
+            legal.push({row: startRow - 1, col: startCol - 2})
+        }
+        if (isWhite(board[startRow + 2][startCol + 1]) != true) { 
+            legal.push({row: startRow + 2, col: startCol + 1})
+        }
+        if (isWhite(board[startRow + 2][startCol - 1]) != true) { 
+            legal.push({row: startRow + 2, col: startCol - 1})
+        }
+        if (isWhite(board[startRow - 2][startCol + 1]) != true) { 
+            legal.push({row: startRow - 2, col: startCol + 1})
+        }
+        if (isWhite(board[startRow - 2][startCol - 1]) != true) { 
+            legal.push({row: startRow - 2, col: startCol - 1})
+        }
     } else if (piece === '♝') { // white bishop
 
     } else if (piece === '♛') { // white queen
         
     } else if (piece === '♚') { // white king
-        
+        // just check one square in each direction
+        if (isWhite(board[startRow + 1][startCol]) != true) { 
+            legal.push({row: startRow + 1, col: startCol})
+        }
+        if (isWhite(board[startRow + 1][startCol + 1]) != true) { 
+            legal.push({row: startRow + 1, col: startCol + 1})
+        }
+        if (isWhite(board[startRow + 1][startCol - 1]) != true) { 
+            legal.push({row: startRow + 1, col: startCol - 1})
+        }
+        if (isWhite(board[startRow][startCol + 1]) != true) { 
+            legal.push({row: startRow, col: startCol + 1})
+        }
+        if (isWhite(board[startRow][startCol - 1]) != true) { 
+            legal.push({row: startRow, col: startCol - 1})
+        }
+        if (isWhite(board[startRow - 1][startCol + 1]) != true) { 
+            legal.push({row: startRow - 1, col: startCol + 1})
+        }
+        if (isWhite(board[startRow - 1][startCol]) != true) { 
+            legal.push({row: startRow - 1, col: startCol})
+        }
+        if (isWhite(board[startRow - 1][startCol - 1]) != true) { 
+            legal.push({row: startRow - 1, col: startCol - 1})
+        }
     } else if (piece === '♟') { // white pawn
         // checks if pawn can move straight ahead
         if (isWhite(board[startRow + 1][startCol]) === null) { 
@@ -127,13 +175,61 @@ function legalMoves(startRow, startCol) {
     } else if (piece === '♖') { // black rook
          
     } else if (piece === '♘') { // black knight
-        
+        // check every possible legal move
+        if (isWhite(board[startRow + 1][startCol + 2]) != false) { 
+            legal.push({row: startRow + 1, col: startCol + 2})
+        }
+        if (isWhite(board[startRow - 1][startCol + 2]) != false) { 
+            legal.push({row: startRow - 1, col: startCol + 2})
+        }
+        if (isWhite(board[startRow + 1][startCol - 2]) != false) { 
+            legal.push({row: startRow + 1, col: startCol - 2})
+        }
+        if (isWhite(board[startRow - 1][startCol - 2]) != false) { 
+            legal.push({row: startRow - 1, col: startCol - 2})
+        }
+        if (isWhite(board[startRow + 2][startCol + 1]) != false) { 
+            legal.push({row: startRow + 2, col: startCol + 1})
+        }
+        if (isWhite(board[startRow + 2][startCol - 1]) != false) { 
+            legal.push({row: startRow + 2, col: startCol - 1})
+        }
+        if (isWhite(board[startRow - 2][startCol + 1]) != false) { 
+            legal.push({row: startRow - 2, col: startCol + 1})
+        }
+        if (isWhite(board[startRow - 2][startCol - 1]) != false) { 
+            legal.push({row: startRow - 2, col: startCol - 1})
+        }
     } else if (piece === '♗') { // black bishop
         
     } else if (piece === '♕') { // black queen
         
     } else if (piece === '♔') { // black king
-        
+        // just check one square in each direction
+        if (isWhite(board[startRow + 1][startCol]) != false) { 
+            legal.push({row: startRow + 1, col: startCol})
+        }
+        if (isWhite(board[startRow + 1][startCol + 1]) != false) { 
+            legal.push({row: startRow + 1, col: startCol + 1})
+        }
+        if (isWhite(board[startRow + 1][startCol - 1]) != false) { 
+            legal.push({row: startRow + 1, col: startCol - 1})
+        }
+        if (isWhite(board[startRow][startCol + 1]) != false) { 
+            legal.push({row: startRow, col: startCol + 1})
+        }
+        if (isWhite(board[startRow][startCol - 1]) != false) { 
+            legal.push({row: startRow, col: startCol - 1})
+        }
+        if (isWhite(board[startRow - 1][startCol + 1]) != false) { 
+            legal.push({row: startRow - 1, col: startCol + 1})
+        }
+        if (isWhite(board[startRow - 1][startCol]) != false) { 
+            legal.push({row: startRow - 1, col: startCol})
+        }
+        if (isWhite(board[startRow - 1][startCol - 1]) != false) { 
+            legal.push({row: startRow - 1, col: startCol - 1})
+        }
     } else if (piece === '♙') { // black pawn
         // checks if pawn can move straight ahead
         if (isWhite(board[startRow - 1][startCol]) === null) { 
