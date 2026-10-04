@@ -1,24 +1,29 @@
+// TODO: make sure the board is flippable so that the players' pieces are at the bottom
+// probably a variable saying which side the player is on, and flipping the board w that
+// legal move function will need to be updated, its hard coded based on whether piece is black or white
+// OR we render the board as upside down on white player's screen only
+
 // initial board state
-// capitalized is white, lowercase is black
-// 'r': rook, 'n': knight, 'b': bishop, 'q': queen, 'k': king, 'p': pawn, '': empty
+// implement customizable board later?
 const boardState = [
-  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
-  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+  ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'],
+  ['♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'],
   ['',  '',  '',  '',  '',  '',  '',  ''],
   ['',  '',  '',  '',  '',  '',  '',  ''],
   ['',  '',  '',  '',  '',  '',  '',  ''],
   ['',  '',  '',  '',  '',  '',  '',  ''],
-  ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-  ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r']
+  ['♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'],
+  ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖']
 ];
 
-let selectedSquare = null; // Stores row/col of selected piece, e.g. { row: 6, col: 4 }
+let selectedSquare = null; // stores row/col of selected piece, ex. { row: 6, col: 4 }
+let isWhiteTurn = true;
 
 const boardElement = document.getElementById('board');
 
-// 2. Render the board DOM elements
+// render board elements
 function drawBoard() {
-  boardElement.innerHTML = ''; // Clear previous board
+  boardElement.innerHTML = ''; // clear previous board
 
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
@@ -48,32 +53,107 @@ function drawBoard() {
   }
 }
 
-// 3. Handle click events (select piece vs. move piece)
+// handle click events (select piece vs. move piece)
 function onSquareClick(event) {
   const row = parseInt(event.currentTarget.dataset.row);
   const col = parseInt(event.currentTarget.dataset.col);
   const pieceClicked = boardState[row][col];
 
   if (selectedSquare === null) {
-    // FIRST CLICK: Select a piece
+    // click 1: select a piece
     if (pieceClicked !== '') {
       selectedSquare = { row, col };
-      drawBoard();
+      drawBoard(); // to render border
     }
   } else {
-    // SECOND CLICK: Move the selected piece to the new target square
+    // click 2: move the selected piece to the new target square
     const fromRow = selectedSquare.row;
     const fromCol = selectedSquare.col;
 
-    // Update 2D array state
+    // update board state
     boardState[row][col] = boardState[fromRow][fromCol];
     boardState[fromRow][fromCol] = '';
 
-    // Reset selection and re-render
+    // reset selection and re-render
     selectedSquare = null;
     drawBoard();
   }
 }
 
-// Initial draw
+// get piece color - returns true if piece is white, false if black, null if empty square
+function isWhite(piece) {
+    if (piece === ' ') {
+        return null;
+    } else if (piece === '♜' || piece === '♞' || piece === '♝'
+            || piece === '♛' || piece === '♚' || piece === '♟') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// generates legal moves, returns an array of valid target coordinates [{ row: row, col: col }, ...]
+// for the piece at (startRow, startCol)
+function legalMoves(startRow, startCol) {
+    let piece = board[startRow][startCol]
+    let legal = []
+    if (piece === '♜') { // white rook
+
+    } else if (piece === '♞') { // white knight
+
+    } else if (piece === '♝') { // white bishop
+
+    } else if (piece === '♛') { // white queen
+        
+    } else if (piece === '♚') { // white king
+        
+    } else if (piece === '♟') { // white pawn
+        // checks if pawn can move straight ahead
+        if (isWhite(board[startRow + 1][startCol]) === null) { 
+            legal.push({row: startRow + 1, col: startCol})
+        }
+        // checks if pawn can move 2 squares ahead
+        if (startRow === 1 && isWhite(board[startRow + 2][startCol]) === null) {
+            legal.push({row: startRow + 2, col: startCol})
+        }
+        // checks if pawn can capture diagonally to whites left
+        if (isWhite(board[startRow + 1][startCol + 1]) === false) { 
+            legal.push({row: startRow + 1, col: startCol + 1})
+        }
+        // checks if pawn can capture diagonally to whites right
+        if (isWhite(board[startRow + 1][startCol - 1]) === false) { 
+            legal.push({row: startRow + 1, col: startCol - 1})
+        }
+    } else if (piece === '♖') { // black rook
+         
+    } else if (piece === '♘') { // black knight
+        
+    } else if (piece === '♗') { // black bishop
+        
+    } else if (piece === '♕') { // black queen
+        
+    } else if (piece === '♔') { // black king
+        
+    } else if (piece === '♙') { // black pawn
+        // checks if pawn can move straight ahead
+        if (isWhite(board[startRow - 1][startCol]) === null) { 
+            legal.push({row: startRow - 1, col: startCol})
+        }
+        // checks if pawn can move 2 squares ahead
+        if (startRow === 1 && isWhite(board[startRow - 2][startCol]) === null) {
+            legal.push({row: startRow - 2, col: startCol})
+        }
+        // checks if pawn can capture diagonally to blacks left
+        if (isWhite(board[startRow - 1][startCol - 1]) === true) { 
+            legal.push({row: startRow - 1, col: startCol - 1})
+        }
+        // checks if pawn can capture diagonally to blacks right
+        if (isWhite(board[startRow - 1][startCol + 1]) === true) { 
+            legal.push({row: startRow - 1, col: startCol + 1})
+        }
+    }
+    return legal;
+}
+
+// initial draw
 drawBoard();
