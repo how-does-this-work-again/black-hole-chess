@@ -58,11 +58,12 @@ function onSquareClick(event) {
   const row = parseInt(event.currentTarget.dataset.row);
   const col = parseInt(event.currentTarget.dataset.col);
   const pieceClicked = boardState[row][col];
+  let legalmoves = []
 
   if (selectedSquare === null) {
     // click 1: select a piece
     if (pieceClicked !== '') {
-      selectedSquare = { row, col };
+      selectedSquare = {row, col};
       drawBoard(); // to render border
     }
   } else {
@@ -70,9 +71,12 @@ function onSquareClick(event) {
     const fromRow = selectedSquare.row;
     const fromCol = selectedSquare.col;
 
-    // update board state
-    boardState[row][col] = boardState[fromRow][fromCol];
-    boardState[fromRow][fromCol] = '';
+    legalmoves = legalMoves(fromRow, fromCol)
+    if (legalmoves.includes({row, col})) {
+        // update board state
+        boardState[row][col] = boardState[fromRow][fromCol];
+        boardState[fromRow][fromCol] = '';
+    }
 
     // reset selection and re-render
     selectedSquare = null;
@@ -97,7 +101,6 @@ function isWhite(piece) {
 // for the piece at (startRow, startCol)
 function legalMoves(startRow, startCol) {
     let piece = board[startRow][startCol];
-    let square;
     let legal = [];
     if (piece === '♜') { // white rook
         legal = rookLegal(true)
@@ -129,6 +132,7 @@ function legalMoves(startRow, startCol) {
 
 // initial draw
 drawBoard();
+
 
 
 // helper funcs for generating legal moves
