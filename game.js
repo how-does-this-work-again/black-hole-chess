@@ -20,6 +20,7 @@ let selectedSquare = null; // stores row/col of selected piece, ex. { row: 6, co
 let isWhiteTurn = true;
 
 const boardElement = document.getElementById('board');
+const testingElement = document.getElementById('testing');
 
 // render board elements
 function drawBoard() {
@@ -72,10 +73,11 @@ function onSquareClick(event) {
     const fromCol = selectedSquare.col;
 
     legalmoves = legalMoves(fromRow, fromCol, boardState)
+    testingElement.textContent = legalmoves;
     if (legalmoves.includes({row, col})) {
         // update board state
-        boardState[row][col] = 'y';//boardState[fromRow][fromCol];
-        boardState[fromRow][fromCol] = 'x';
+        boardState[row][col] = boardState[fromRow][fromCol];
+        boardState[fromRow][fromCol] = ' ';
     }
 
     // reset selection and re-render
