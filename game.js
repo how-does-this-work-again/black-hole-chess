@@ -74,8 +74,8 @@ function onSquareClick(event) {
     legalmoves = legalMoves(fromRow, fromCol, boardState)
     if (legalmoves.includes({row, col})) {
         // update board state
-        boardState[row][col] = boardState[fromRow][fromCol];
-        boardState[fromRow][fromCol] = '';
+        boardState[row][col] = 'y';//boardState[fromRow][fromCol];
+        boardState[fromRow][fromCol] = 'x';
     }
 
     // reset selection and re-render
