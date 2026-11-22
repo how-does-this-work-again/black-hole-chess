@@ -81,6 +81,7 @@ function onSquareClick(event) {
 }
 
 // get piece color - returns true if piece is white, false if black, null if empty square
+// null is neither false nor true (in comparisons, null == false and null == true both return false), so this is the best method for comparisons
 function isWhite(piece) {
     if (piece === ' ') {
         return null;
@@ -96,160 +97,245 @@ function isWhite(piece) {
 // for the piece at (startRow, startCol)
 function legalMoves(startRow, startCol) {
     let piece = board[startRow][startCol];
+    let square;
     let legal = [];
     if (piece === '♜') { // white rook
-        
+        legal = rookLegal(true)
     } else if (piece === '♞') { // white knight
-        // check every possible legal move
-        if (isWhite(board[startRow + 1][startCol + 2]) != true) { 
-            legal.push({row: startRow + 1, col: startCol + 2})
-        }
-        if (isWhite(board[startRow - 1][startCol + 2]) != true) { 
-            legal.push({row: startRow - 1, col: startCol + 2})
-        }
-        if (isWhite(board[startRow + 1][startCol - 2]) != true) { 
-            legal.push({row: startRow + 1, col: startCol - 2})
-        }
-        if (isWhite(board[startRow - 1][startCol - 2]) != true) { 
-            legal.push({row: startRow - 1, col: startCol - 2})
-        }
-        if (isWhite(board[startRow + 2][startCol + 1]) != true) { 
-            legal.push({row: startRow + 2, col: startCol + 1})
-        }
-        if (isWhite(board[startRow + 2][startCol - 1]) != true) { 
-            legal.push({row: startRow + 2, col: startCol - 1})
-        }
-        if (isWhite(board[startRow - 2][startCol + 1]) != true) { 
-            legal.push({row: startRow - 2, col: startCol + 1})
-        }
-        if (isWhite(board[startRow - 2][startCol - 1]) != true) { 
-            legal.push({row: startRow - 2, col: startCol - 1})
-        }
+        legal = knightLegal(true)
     } else if (piece === '♝') { // white bishop
-
+        legal = bishopLegal(true)
     } else if (piece === '♛') { // white queen
-        
+        legal = rookLegal(true).concat(bishopLegal(true))
     } else if (piece === '♚') { // white king
-        // just check one square in each direction
-        if (isWhite(board[startRow + 1][startCol]) != true) { 
-            legal.push({row: startRow + 1, col: startCol})
-        }
-        if (isWhite(board[startRow + 1][startCol + 1]) != true) { 
-            legal.push({row: startRow + 1, col: startCol + 1})
-        }
-        if (isWhite(board[startRow + 1][startCol - 1]) != true) { 
-            legal.push({row: startRow + 1, col: startCol - 1})
-        }
-        if (isWhite(board[startRow][startCol + 1]) != true) { 
-            legal.push({row: startRow, col: startCol + 1})
-        }
-        if (isWhite(board[startRow][startCol - 1]) != true) { 
-            legal.push({row: startRow, col: startCol - 1})
-        }
-        if (isWhite(board[startRow - 1][startCol + 1]) != true) { 
-            legal.push({row: startRow - 1, col: startCol + 1})
-        }
-        if (isWhite(board[startRow - 1][startCol]) != true) { 
-            legal.push({row: startRow - 1, col: startCol})
-        }
-        if (isWhite(board[startRow - 1][startCol - 1]) != true) { 
-            legal.push({row: startRow - 1, col: startCol - 1})
-        }
+        legal = kingLegal(true)
     } else if (piece === '♟') { // white pawn
-        // checks if pawn can move straight ahead
-        if (isWhite(board[startRow + 1][startCol]) === null) { 
-            legal.push({row: startRow + 1, col: startCol})
-        }
-        // checks if pawn can move 2 squares ahead
-        if (startRow === 1 && isWhite(board[startRow + 2][startCol]) === null) {
-            legal.push({row: startRow + 2, col: startCol})
-        }
-        // checks if pawn can capture diagonally to whites left
-        if (isWhite(board[startRow + 1][startCol + 1]) === false) { 
-            legal.push({row: startRow + 1, col: startCol + 1})
-        }
-        // checks if pawn can capture diagonally to whites right
-        if (isWhite(board[startRow + 1][startCol - 1]) === false) { 
-            legal.push({row: startRow + 1, col: startCol - 1})
-        }
+        legal = pawnLegal(true)
     } else if (piece === '♖') { // black rook
-         
+        legal = rookLegal(false)
     } else if (piece === '♘') { // black knight
-        // check every possible legal move
-        if (isWhite(board[startRow + 1][startCol + 2]) != false) { 
-            legal.push({row: startRow + 1, col: startCol + 2})
-        }
-        if (isWhite(board[startRow - 1][startCol + 2]) != false) { 
-            legal.push({row: startRow - 1, col: startCol + 2})
-        }
-        if (isWhite(board[startRow + 1][startCol - 2]) != false) { 
-            legal.push({row: startRow + 1, col: startCol - 2})
-        }
-        if (isWhite(board[startRow - 1][startCol - 2]) != false) { 
-            legal.push({row: startRow - 1, col: startCol - 2})
-        }
-        if (isWhite(board[startRow + 2][startCol + 1]) != false) { 
-            legal.push({row: startRow + 2, col: startCol + 1})
-        }
-        if (isWhite(board[startRow + 2][startCol - 1]) != false) { 
-            legal.push({row: startRow + 2, col: startCol - 1})
-        }
-        if (isWhite(board[startRow - 2][startCol + 1]) != false) { 
-            legal.push({row: startRow - 2, col: startCol + 1})
-        }
-        if (isWhite(board[startRow - 2][startCol - 1]) != false) { 
-            legal.push({row: startRow - 2, col: startCol - 1})
-        }
+        legal = knightLegal(false)
     } else if (piece === '♗') { // black bishop
-        
+        legal = bishopLegal(false)
     } else if (piece === '♕') { // black queen
-        
+        legal = rookLegal(false).concat(bishopLegal(false))
     } else if (piece === '♔') { // black king
-        // just check one square in each direction
-        if (isWhite(board[startRow + 1][startCol]) != false) { 
-            legal.push({row: startRow + 1, col: startCol})
-        }
-        if (isWhite(board[startRow + 1][startCol + 1]) != false) { 
-            legal.push({row: startRow + 1, col: startCol + 1})
-        }
-        if (isWhite(board[startRow + 1][startCol - 1]) != false) { 
-            legal.push({row: startRow + 1, col: startCol - 1})
-        }
-        if (isWhite(board[startRow][startCol + 1]) != false) { 
-            legal.push({row: startRow, col: startCol + 1})
-        }
-        if (isWhite(board[startRow][startCol - 1]) != false) { 
-            legal.push({row: startRow, col: startCol - 1})
-        }
-        if (isWhite(board[startRow - 1][startCol + 1]) != false) { 
-            legal.push({row: startRow - 1, col: startCol + 1})
-        }
-        if (isWhite(board[startRow - 1][startCol]) != false) { 
-            legal.push({row: startRow - 1, col: startCol})
-        }
-        if (isWhite(board[startRow - 1][startCol - 1]) != false) { 
-            legal.push({row: startRow - 1, col: startCol - 1})
-        }
+        legal = kingLegal(false)
     } else if (piece === '♙') { // black pawn
-        // checks if pawn can move straight ahead
-        if (isWhite(board[startRow - 1][startCol]) === null) { 
-            legal.push({row: startRow - 1, col: startCol})
-        }
-        // checks if pawn can move 2 squares ahead
-        if (startRow === 1 && isWhite(board[startRow - 2][startCol]) === null) {
-            legal.push({row: startRow - 2, col: startCol})
-        }
-        // checks if pawn can capture diagonally to blacks left
-        if (isWhite(board[startRow - 1][startCol - 1]) === true) { 
-            legal.push({row: startRow - 1, col: startCol - 1})
-        }
-        // checks if pawn can capture diagonally to blacks right
-        if (isWhite(board[startRow - 1][startCol + 1]) === true) { 
-            legal.push({row: startRow - 1, col: startCol + 1})
-        }
+        legal = pawnLegal(false)
     }
     return legal;
 }
 
 // initial draw
 drawBoard();
+
+
+// helper funcs for generating legal moves
+
+// pawn
+// color: whether the pawn is white (true if white, false if black)
+function pawnLegal(color) {
+    let legalPawn = [];
+    // checks if pawn can move straight ahead
+    if (isWhite(board[startRow - 1][startCol]) == null) { 
+        legalPawn.push({row: startRow - 1, col: startCol})
+    }
+    // checks if pawn can move 2 squares ahead
+    if (startRow == 1 && isWhite(board[startRow - 2][startCol]) == null) {
+        legalPawn.push({row: startRow - 2, col: startCol})
+    }
+    // checks if pawn can capture diagonally to left
+    if (isWhite(board[startRow - 1][startCol - 1]) == (!color)) { 
+        legalPawn.push({row: startRow - 1, col: startCol - 1})
+    }
+    // checks if pawn can capture diagonally to right
+    if (isWhite(board[startRow - 1][startCol + 1]) == (!color)) { 
+        legalPawn.push({row: startRow - 1, col: startCol + 1})
+    }
+    return legalPawn;
+}
+
+// knight
+// color: whether the knight is white (true if white, false if black)
+function knightLegal(color) {
+    let legalKnight = [];
+    // check every possible legal move
+    if (isWhite(board[startRow + 1][startCol + 2]) != color) { 
+        legalKnight.push({row: startRow + 1, col: startCol + 2})
+    }
+    if (isWhite(board[startRow - 1][startCol + 2]) != color) { 
+        legalKnight.push({row: startRow - 1, col: startCol + 2})
+    }
+    if (isWhite(board[startRow + 1][startCol - 2]) != color) { 
+        legalKnight.push({row: startRow + 1, col: startCol - 2})
+    }
+    if (isWhite(board[startRow - 1][startCol - 2]) != color) { 
+        legalKnight.push({row: startRow - 1, col: startCol - 2})
+    }
+    if (isWhite(board[startRow + 2][startCol + 1]) != color) { 
+        legalKnight.push({row: startRow + 2, col: startCol + 1})
+    }
+    if (isWhite(board[startRow + 2][startCol - 1]) != color) { 
+        legalKnight.push({row: startRow + 2, col: startCol - 1})
+    }
+    if (isWhite(board[startRow - 2][startCol + 1]) != color) { 
+        legalKnight.push({row: startRow - 2, col: startCol + 1})
+    }
+    if (isWhite(board[startRow - 2][startCol - 1]) != color) { 
+        legalKnight.push({row: startRow - 2, col: startCol - 1})
+    }
+    return legalKnight;
+}
+
+// king
+// color: whether the king is white (true if white, false if black)
+function kingLegal(color) {
+    let legalKing = [];
+    // just check one square in each direction
+    if (isWhite(board[startRow + 1][startCol]) != color) { 
+        legalKing.push({row: startRow + 1, col: startCol})
+    }
+    if (isWhite(board[startRow + 1][startCol + 1]) != color) { 
+        legalKing.push({row: startRow + 1, col: startCol + 1})
+    }
+    if (isWhite(board[startRow + 1][startCol - 1]) != color) { 
+        legalKing.push({row: startRow + 1, col: startCol - 1})
+    }
+    if (isWhite(board[startRow][startCol + 1]) != color) { 
+        legalKing.push({row: startRow, col: startCol + 1})
+    }
+    if (isWhite(board[startRow][startCol - 1]) != color) { 
+        legalKing.push({row: startRow, col: startCol - 1})
+    }
+    if (isWhite(board[startRow - 1][startCol + 1]) != color) { 
+        legalKing.push({row: startRow - 1, col: startCol + 1})
+    }
+    if (isWhite(board[startRow - 1][startCol]) != color) { 
+        legalKing.push({row: startRow - 1, col: startCol})
+    }
+    if (isWhite(board[startRow - 1][startCol - 1]) != color) { 
+        legalKing.push({row: startRow - 1, col: startCol - 1})
+    }
+    return legalKing;
+}
+
+// rook
+// color: whether the rook is white (true if white, false if black)
+function rookLegal(color) {
+    let legalRook = [];
+    // so i could maybe make helper funcs for these but honestly that might take more code than repeating it
+    for (let currentRow = startRow + 1; currentRow < 8; currentRow++) { // down the cols
+        square = board[currentRow][startCol];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalRook.push({row: currentRow, col: startCol});
+            break;
+        } else { // no piece on square: legal
+            legalRook.push({row: currentRow, col: startCol});
+        }
+    }
+    for (let currentRow = startRow - 1; currentRow >= 0; currentRow--) { // up the cols
+        square = board[currentRow][startCol];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalRook.push({row: currentRow, col: startCol});
+            break;
+        } else { // no piece on square: legal
+            legalRook.push({row: currentRow, col: startCol});
+        }
+    }
+    for (let currentCol = startCol + 1; currentCol < 8; currentCol++) { // right across rows
+        square = board[startRow][currentCol];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalRook.push({row: startRow, col: currentCol});
+            break;
+        } else { // no piece on square: legal
+            legalRook.push({row: startRow, col: currentCol});
+        }
+    }
+    for (let currentCol = startCol - 1; currentCol >=0; currentCol--) { // left across rows
+        square = board[startRow][currentCol];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalRook.push({row: startRow, col: currentCol});
+            break;
+        } else { // no piece on square: legal
+            legalRook.push({row: startRow, col: currentCol});
+        }
+    }
+    return legalRook;
+}
+
+// bishop
+// color: whether the bishop is white (true if white, false if black)
+function bishopLegal(color) {
+    let legalBishop = [];
+    // like the rook, i could maybe make helper funcs for these but honestly that might take more code than repeating it
+    for (let i = 0; i < 8; i++) { // down the cols
+        // within range check
+        if (startRow + i >= 8 || startCol + i >= 8) {
+            break;
+        }
+        square = board[startRow + i][startCol + i];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalBishop.push({row: startRow + i, col: startCol + i});
+            break;
+        } else { // no piece on square: legal
+            legalBishop.push({row: startRow + i, col: startCol + i});
+        }
+    }
+    for (let i = 0; i < 8; i++) { // up the cols
+        // within range check
+        if (startRow + i >= 8 || startCol - i < 0) {
+            break;
+        }
+        square = board[startRow + i][startCol - i];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalBishop.push({row: startRow + i, col: startCol - i});
+            break;
+        } else { // no piece on square: legal
+            legalBishop.push({row: startRow + i, col: startCol - i});
+        }
+    }
+    for (let i = 0; i < 8; i++) { // right across rows
+        // within range check
+        if (startRow - i < 0 || startCol + i >= 8) {
+            break;
+        }
+        square = board[startRow - i][startCol + i];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalBishop.push({row: startRow - i, col: startCol + i});
+            break;
+        } else { // no piece on square: legal
+            legalBishop.push({row: startRow - i, col: startCol + i});
+        }
+    }
+    for (let i = 0; i < 8; i--) { // left across rows
+        // within range check
+        if (startRow - i < 0 || startCol - i < 0) {
+            break;
+        }
+        square = board[startRow - i][startCol - i];
+        if (isWhite(square) == color) { // piece on square is same color: not legal
+            break;
+        } else if (isWhite(square) == !color) { // piece on square is opp color: legal (cant move further)
+            legalBishop.push({row: startRow - i, col: startCol - i});
+            break;
+        } else { // no piece on square: legal
+            legalBishop.push({row: startRow - i, col: startCol - i});
+        }
+    }
+    return legalBishop;
+}
