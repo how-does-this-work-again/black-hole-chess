@@ -105,16 +105,22 @@ function legalMoves(startRow, startCol, board) {
     let piece = board[startRow][startCol];
     let legal = [];
     if (piece === '♜') { // white rook
+        console.log("rook")
         legal = rookLegal(true, startRow, startCol)
     } else if (piece === '♞') { // white knight
+        console.log("knight")
         legal = knightLegal(true, startRow, startCol)
     } else if (piece === '♝') { // white bishop
+        console.log("bishop")
         legal = bishopLegal(true, startRow, startCol)
     } else if (piece === '♛') { // white queen
+        console.log("queen")
         legal = rookLegal(true, startRow, startCol).concat(bishopLegal(true, startRow, startCol))
     } else if (piece === '♚') { // white king
+        console.log("king")
         legal = kingLegal(true, startRow, startCol)
     } else if (piece === '♟') { // white pawn
+        console.log("pawn")
         legal = pawnLegal(true, startRow, startCol)
     } else if (piece === '♖') { // black rook
         legal = rookLegal(false, startRow, startCol)
