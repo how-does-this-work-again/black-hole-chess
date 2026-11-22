@@ -72,8 +72,10 @@ function onSquareClick(event) {
     const fromRow = selectedSquare.row;
     const fromCol = selectedSquare.col;
 
-    legalmoves = legalMoves(fromRow, fromCol, boardState)
-    testingElement.textContent = legalmoves;
+    legalmoves = legalMoves(fromRow, fromCol, boardState);
+    const textcontent = document.createTextNode(legalmoves);
+    testingElement.appendChild(textcontent);
+
     //if (legalmoves.includes({row, col})) {
         // update board state
         boardState[row][col] = boardState[fromRow][fromCol];
