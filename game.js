@@ -71,7 +71,7 @@ function onSquareClick(event) {
     const fromRow = selectedSquare.row;
     const fromCol = selectedSquare.col;
 
-    legalmoves = legalMoves(fromRow, fromCol)
+    legalmoves = legalMoves(fromRow, fromCol, boardState)
     if (legalmoves.includes({row, col})) {
         // update board state
         boardState[row][col] = boardState[fromRow][fromCol];
@@ -99,7 +99,7 @@ function isWhite(piece) {
 
 // generates legal moves, returns an array of valid target coordinates [{ row: row, col: col }, ...]
 // for the piece at (startRow, startCol)
-function legalMoves(startRow, startCol) {
+function legalMoves(startRow, startCol, board) {
     let piece = board[startRow][startCol];
     let legal = [];
     if (piece === '♜') { // white rook
