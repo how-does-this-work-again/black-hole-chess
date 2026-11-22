@@ -106,34 +106,34 @@ function legalMoves(startRow, startCol, board) {
     let legal = [];
     if (piece === '♜') { // white rook
         console.log("rook")
-        legal = rookLegal(true, startRow, startCol)
+        legal = rookLegal(true, startRow, startCol, board)
     } else if (piece === '♞') { // white knight
         console.log("knight")
-        legal = knightLegal(true, startRow, startCol)
+        legal = knightLegal(true, startRow, startCol, board)
     } else if (piece === '♝') { // white bishop
         console.log("bishop")
-        legal = bishopLegal(true, startRow, startCol)
+        legal = bishopLegal(true, startRow, startCol, board)
     } else if (piece === '♛') { // white queen
         console.log("queen")
-        legal = rookLegal(true, startRow, startCol).concat(bishopLegal(true, startRow, startCol))
+        legal = rookLegal(true, startRow, startCol, board).concat(bishopLegal(true, startRow, startCol, board))
     } else if (piece === '♚') { // white king
         console.log("king")
-        legal = kingLegal(true, startRow, startCol)
+        legal = kingLegal(true, startRow, startCol, board)
     } else if (piece === '♟') { // white pawn
         console.log("pawn")
-        legal = pawnLegal(true, startRow, startCol)
+        legal = pawnLegal(true, startRow, startCol, board)
     } else if (piece === '♖') { // black rook
-        legal = rookLegal(false, startRow, startCol)
+        legal = rookLegal(false, startRow, startCol, board)
     } else if (piece === '♘') { // black knight
-        legal = knightLegal(false, startRow, startCol)
+        legal = knightLegal(false, startRow, startCol, board)
     } else if (piece === '♗') { // black bishop
-        legal = bishopLegal(false, startRow, startCol)
+        legal = bishopLegal(false, startRow, startCol, board)
     } else if (piece === '♕') { // black queen
-        legal = rookLegal(false, startRow, startCol).concat(bishopLegal(false, startRow, startCol))
+        legal = rookLegal(false, startRow, startCol, board).concat(bishopLegal(false, startRow, startCol, board))
     } else if (piece === '♔') { // black king
-        legal = kingLegal(false, startRow, startCol)
+        legal = kingLegal(false, startRow, startCol, board)
     } else if (piece === '♙') { // black pawn
-        legal = pawnLegal(false, startRow, startCol)
+        legal = pawnLegal(false, startRow, startCo, board)
     }
     return legal;
 }
@@ -145,7 +145,7 @@ drawBoard();
 
 // pawn
 // color: whether the pawn is white (true if white, false if black)
-function pawnLegal(color, startrow, startcol) {
+function pawnLegal(color, startrow, startcol, board) {
     let legalPawn = [];
     // checks if pawn can move straight ahead
     if (isWhite(board[startrow - 1][startcol]) == null) { 
@@ -168,7 +168,7 @@ function pawnLegal(color, startrow, startcol) {
 
 // knight
 // color: whether the knight is white (true if white, false if black)
-function knightLegal(color, startrow, startcol) {
+function knightLegal(color, startrow, startcol, board) {
     let legalKnight = [];
     // check every possible legal move
     if (isWhite(board[startrow + 1][startcol + 2]) != color) { 
@@ -200,7 +200,7 @@ function knightLegal(color, startrow, startcol) {
 
 // king
 // color: whether the king is white (true if white, false if black)
-function kingLegal(color, startrow, startcol) {
+function kingLegal(color, startrow, startcol, board) {
     let legalKing = [];
     // just check one square in each direction
     if (isWhite(board[startrow + 1][startcol]) != color) { 
@@ -232,7 +232,7 @@ function kingLegal(color, startrow, startcol) {
 
 // rook
 // color: whether the rook is white (true if white, false if black)
-function rookLegal(color, startrow, startcol) {
+function rookLegal(color, startrow, startcol, board) {
     let legalRook = [];
     // so i could maybe make helper funcs for these but honestly that might take more code than repeating it
     for (let currentRow = startrow + 1; currentRow < 8; currentRow++) { // down the cols
@@ -284,7 +284,7 @@ function rookLegal(color, startrow, startcol) {
 
 // bishop
 // color: whether the bishop is white (true if white, false if black)
-function bishopLegal(color, startrow, startcol) {
+function bishopLegal(color, startrow, startcol, board) {
     let legalBishop = [];
     // like the rook, i could maybe make helper funcs for these but honestly that might take more code than repeating it
     for (let i = 0; i < 8; i++) { // down the cols
