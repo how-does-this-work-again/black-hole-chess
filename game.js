@@ -74,11 +74,11 @@ function onSquareClick(event) {
     legalmoves = legalMoves(fromRow, fromCol, boardState);
     console.log(legalmoves);
 
-    //if (legalmoves.includes({row, col})) {
+    if (legalmoves.includes({row, col})) {
         // update board state
         boardState[row][col] = boardState[fromRow][fromCol];
         boardState[fromRow][fromCol] = ' ';
-    //}
+    }
 
     // reset selection and re-render
     selectedSquare = null;
