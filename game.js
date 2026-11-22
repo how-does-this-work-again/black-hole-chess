@@ -158,7 +158,7 @@ function pawnLegal(color, startrow, startcol, board) {
         legalPawn.push({row: startrow - 1, col: startcol})
     }
     // checks if pawn can move 2 squares ahead
-    if (startRow == 1 && isWhite(board[startrow - 2][startcol]) == null) {
+    if (startrow == 1 && isWhite(board[startrow - 2][startcol]) == null) {
         legalPawn.push({row: startrow - 2, col: startcol})
     }
     // checks if pawn can capture diagonally to left
