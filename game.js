@@ -104,36 +104,42 @@ function isWhite(piece) {
 function legalMoves(startRow, startCol, board) {
     let piece = board[startRow][startCol];
     let legal = [];
-    if (piece === '♜') { // white rook
+    if (piece === '♜') { // black rook
+        console.log("rook")
+        legal = rookLegal(false, startRow, startCol, board)
+    } else if (piece === '♞') { // black knight
+        console.log("knight")
+        legal = knightLegal(false, startRow, startCol, board)
+    } else if (piece === '♝') { // black bishop
+        console.log("bishop")
+        legal = bishopLegal(false, startRow, startCol, board)
+    } else if (piece === '♛') { // black queen
+        console.log("queen")
+        legal = rookLegal(false, startRow, startCol, board).concat(bishopLegal(true, startRow, startCol, board))
+    } else if (piece === '♚') { // black king
+        console.log("king")
+        legal = kingLegal(false, startRow, startCol, board)
+    } else if (piece === '♟') { // black pawn
+        console.log("pawn")
+        legal = pawnLegal(false, startRow, startCol, board)
+    } else if (piece === '♖') { // white rook
         console.log("rook")
         legal = rookLegal(true, startRow, startCol, board)
-    } else if (piece === '♞') { // white knight
+    } else if (piece === '♘') { // white knight
         console.log("knight")
         legal = knightLegal(true, startRow, startCol, board)
-    } else if (piece === '♝') { // white bishop
+    } else if (piece === '♗') { // white bishop
         console.log("bishop")
         legal = bishopLegal(true, startRow, startCol, board)
-    } else if (piece === '♛') { // white queen
+    } else if (piece === '♕') { // white queen
         console.log("queen")
-        legal = rookLegal(true, startRow, startCol, board).concat(bishopLegal(true, startRow, startCol, board))
-    } else if (piece === '♚') { // white king
+        legal = rookLegal(true, startRow, startCol, board).concat(bishopLegal(false, startRow, startCol, board))
+    } else if (piece === '♔') { // white king
         console.log("king")
         legal = kingLegal(true, startRow, startCol, board)
-    } else if (piece === '♟') { // white pawn
+    } else if (piece === '♙') { // white pawn
         console.log("pawn")
         legal = pawnLegal(true, startRow, startCol, board)
-    } else if (piece === '♖') { // black rook
-        legal = rookLegal(false, startRow, startCol, board)
-    } else if (piece === '♘') { // black knight
-        legal = knightLegal(false, startRow, startCol, board)
-    } else if (piece === '♗') { // black bishop
-        legal = bishopLegal(false, startRow, startCol, board)
-    } else if (piece === '♕') { // black queen
-        legal = rookLegal(false, startRow, startCol, board).concat(bishopLegal(false, startRow, startCol, board))
-    } else if (piece === '♔') { // black king
-        legal = kingLegal(false, startRow, startCol, board)
-    } else if (piece === '♙') { // black pawn
-        legal = pawnLegal(false, startRow, startCo, board)
     }
     return legal;
 }
